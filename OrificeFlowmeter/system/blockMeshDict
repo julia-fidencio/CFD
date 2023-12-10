@@ -1,0 +1,80 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.x                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+boxCellSize 25;
+
+scale 1;
+
+xMin -199.678811;
+yMin -199.7218;
+zMin -179.8569;
+xMax 359.814;
+yMax 487.618;
+zMax 430.252;
+
+deltaX $boxCellSize;
+deltaY $boxCellSize;
+deltaZ $boxCellSize;
+
+lx #calc "$xMax - $xMin";
+ly #calc "$yMax - $yMin";
+lz #calc "$zMax - $zMin";
+
+xCells #calc "round($lx/$deltaX)";
+yCells #calc "round($ly/$deltaY)";
+zCells #calc "round($lz/$deltaZ)";
+
+// Vertices of the initial box
+vertices
+(
+    ($xMin $yMin $zMin)
+    ($xMax $yMin $zMin)
+    ($xMax $yMax $zMin)
+    ($xMin $yMax $zMin)
+    ($xMin $yMin $zMax)
+    ($xMax $yMin $zMax)
+    ($xMax $yMax $zMax)
+    ($xMin $yMax $zMax)
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) ($xCells $yCells $zCells) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    boundingBox
+    {
+        type patch;
+        faces
+        (
+            (0 4 7 3)
+            (3 7 6 2)
+            (1 5 4 0)
+            (2 6 5 1)
+            (0 3 2 1)
+            (4 5 6 7)
+        );
+    }
+);
+
+// ************************************************************************* //
