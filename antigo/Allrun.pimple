@@ -1,0 +1,13 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+
+# Commands to run in the terminal
+
+
+decomposePar 
+mpirun --use-hwthread-cpus -np 6 pimpleFoam -overwrite -parallel
+reconstructParMesh	
+
+#------------------------------------------------------------------------------

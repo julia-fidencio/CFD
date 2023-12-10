@@ -24,14 +24,14 @@ boundaryField
     {
         type    zeroGradient;
     }
-    OrificeFlow
-    {
-        type    zeroGradient;
-    }
     outlet
     {
         type    fixedValue;
-        value   uniform 0;
+	value 	uniform 0;
+    }
+    OrificeFlow
+    {
+        type    zeroGradient;
     }
  
 }

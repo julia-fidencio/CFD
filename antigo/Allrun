@@ -1,0 +1,16 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+
+# Commands to run in the terminal
+
+blockMesh
+surfaceFeatureExtract
+decomposePar -force
+mpirun --use-hwthread-cpus -np 6 snappyHexMesh -overwrite -parallel
+reconstructParMesh -constant
+
+
+
+#------------------------------------------------------------------------------

@@ -21,53 +21,74 @@ solvers
         solver          GAMG;
         smoother        GaussSeidel;
         tolerance       1e-06;
-        relTol          0.05;
+        relTol          0.1;
     }
 
-    pFinal
-    {
-	    $p;
-	    relTol	0;
-    }
+//    pFinal
+//    {
+//	    $p;
+//	    relTol	0;
+//    }
 
     U
     {
+        solver          PBiCG;
+	preconditioner	DILU;
+        //smoother        GaussSeidel;
+        tolerance       1e-06;
+        relTol          0.1;
+    }
+
+    k
+    {
         solver          smoothSolver;
         smoother        GaussSeidel;
+	nSweeps		2;
         tolerance       1e-06;
-        relTol          0.01;
+        relTol          0.1;
+    }
+    omega
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+	nSweeps		2;
+        tolerance       1e-06;
+        relTol          0.1;
     }
 
-    UFinal
-    {
-	    $U;
-	    relTol	0;
-    }
+//    UFinal
+//    {
+//	    $U;
+//	    relTol	0;
+//    }
+ 
 }
 
-PIMPLE
+SIMPLE
 {
-    nNonOrthogonalCorrectors 0;
+    nNonOrthogonalCorrectors 2;
 
-    pRefCell        0;
-    pRefValue       0;
+//    pRefCell        0;
+//    pRefValue       0;
 
-   // residualControl
-   // {
-   //     p       1e-06;
-   //     U       1e-06;
-   // }
+ //   residualControl
+ //   {
+ //       p       1e-06;
+ //       U       1e-06;
+ //   }
 }
 
 relaxationFactors
 {
     fields
     {
-       p   0.8;
+       p   0.3;
     }
     equations
     {
-        U   0.8;
+        U   0.3;
+	k   0.3;
+	omega 0.3;
     }
 }
 

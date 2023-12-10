@@ -30,20 +30,20 @@ boundaryField
         type            calculated;
         value           uniform 0;
     }
-//    side
-//    {
-//        type            calculated;
-//        value           uniform 0;
-//    }
-    OrificeFlow
+    side
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    airfoil
     {
         type            nutkWallFunction;
         value           uniform 0;
     }
-//    frontAndBack
-//    {
-//        type            empty;
-	//    }
+    frontAndBack
+    {
+        type            empty;
+    }
 }
 
 // ************************************************************************* //

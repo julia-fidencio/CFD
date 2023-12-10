@@ -10,66 +10,35 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    object      fvSolution;
+    object      surfaceFeatureExtractDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-solvers
+OrificeFlowmeter.stl
 {
-    p
+    // How to obtain raw features (extractFromFile || extractFromSurface)
+    extractionMethod    extractFromSurface;
+
+    // Mark edges whose adjacent surface normals are at an angle less
+    // than includedAngle as features
+    // - 0  : selects no edges
+    // - 180: selects all edges
+    includedAngle       90;
+
+    subsetFeatures
     {
-        solver          GAMG;
-        smoother        GaussSeidel;
-        tolerance       1e-06;
-        relTol          0.05;
+        // Keep nonManifold edges (edges with >2 connected faces)
+        nonManifoldEdges       no;
+
+        // Keep open edges (edges with 1 connected face)
+        openEdges       yes;
     }
 
-    pFinal
-    {
-	    $p;
-	    relTol	0;
-    }
 
-    U
-    {
-        solver          smoothSolver;
-        smoother        GaussSeidel;
-        tolerance       1e-06;
-        relTol          0.01;
-    }
+    // Write options
 
-    UFinal
-    {
-	    $U;
-	    relTol	0;
-    }
+    // Write features to obj format for postprocessing
+    writeObj            yes;
 }
-
-PIMPLE
-{
-    nNonOrthogonalCorrectors 0;
-
-    pRefCell        0;
-    pRefValue       0;
-
-   // residualControl
-   // {
-   //     p       1e-06;
-   //     U       1e-06;
-   // }
-}
-
-relaxationFactors
-{
-    fields
-    {
-       p   0.8;
-    }
-    equations
-    {
-        U   0.8;
-    }
-}
-
 
 // ************************************************************************* //

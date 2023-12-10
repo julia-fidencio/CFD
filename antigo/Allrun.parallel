@@ -1,0 +1,28 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+
+nProcs=$1
+
+if [ -z "$nProcs" ]; then
+    echo "Você deve informar o número de processadores que você"
+    echo "colocou em 'system/decomposeParDict'."
+    echo "Rode o comando assim: './Allrun.parallel NUM_PROCS'"
+    echo "onde NUM_PROCS é o número de processadores."
+    exit 1
+fi
+
+# Commands to run in the terminal
+#blockMesh
+#surfaceFeatureExtract
+
+decomposePar -force
+mpirun --use-hwthread-cpus -np $nProcs pimpleFoam -overwrite -parallel
+reconstructParMesh -constant
+
+#------------------------------------------------------------------------------
+
+
+
+#------------------------------------------------------------------------------

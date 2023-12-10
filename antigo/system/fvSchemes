@@ -10,65 +10,50 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    object      fvSolution;
+    object      fvSchemes;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-solvers
+ddtSchemes
 {
-    p
-    {
-        solver          GAMG;
-        smoother        GaussSeidel;
-        tolerance       1e-06;
-        relTol          0.05;
-    }
-
-    pFinal
-    {
-	    $p;
-	    relTol	0;
-    }
-
-    U
-    {
-        solver          smoothSolver;
-        smoother        GaussSeidel;
-        tolerance       1e-06;
-        relTol          0.01;
-    }
-
-    UFinal
-    {
-	    $U;
-	    relTol	0;
-    }
+    default         steadyState;
 }
 
-PIMPLE
+gradSchemes
 {
-    nNonOrthogonalCorrectors 0;
-
-    pRefCell        0;
-    pRefValue       0;
-
-   // residualControl
-   // {
-   //     p       1e-06;
-   //     U       1e-06;
-   // }
+    default         Gauss linear;
+    grad(U)         Gauss linear;
+    grad(p)         Gauss linear;
 }
 
-relaxationFactors
+divSchemes
 {
-    fields
-    {
-       p   0.8;
-    }
-    equations
-    {
-        U   0.8;
-    }
+    default         none;
+    //div(phi,U)      Gauss linear;
+    div(phi,U)      Gauss linearUpwind grad(U);
+    div(phi,k)	 	Gauss upwind;
+    div(phi,omega)	Gauss upwind;
+    div((nuEff*dev2(T(grad(U)))))   Gauss linear;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default         linear;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+wallDist
+{
+	method		meshWave;
+
 }
 
 

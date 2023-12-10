@@ -17,36 +17,37 @@ FoamFile
 
 dimensions      [0 2 -2 0 0 0 0];
 
-internalField   uniform 30.375;
+internalField   uniform 1.5962;
 
 boundaryField
 {
     inlet
     {
-        //type        fixedValue;
+        type        fixedValue;
         //value       uniform 30.375;
         // Or: OpenFOAM provides an inlet condition for k
-        type            turbulentIntensityKineticEnergyInlet;
-        intensity       0.05;
-        value           uniform 30.375;
+       // type            turbulentIntensityKineticEnergyInlet;
+       // intensity       0.05;
+        value           uniform 1.5962;
     }
     outlet
     {
         type            zeroGradient;
     }
-    side
+    OrificeFlow
     {
-        type            zeroGradient;
+        type            fixedValue;
+	value		uniform 0;
     }
-    airfoil
-    {
-        type            kqRWallFunction;
-        value           $internalField;
-    }
-    frontAndBack
-    {
-        type            empty;
-    }
+ //   airfoil
+ //   {
+ //       type            kqRWallFunction;
+ //       value           $internalField;
+ //   }
+ //   frontAndBack
+  //  {
+  //      type            empty;
+  //  }
 }
 
 
